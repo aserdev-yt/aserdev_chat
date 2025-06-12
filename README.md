@@ -2,15 +2,10 @@
 
 A new Flutter project.
 
-## Getting Started
+hi iam [aserdev](https://www.youtube.com/@aserdev_yt) this project a is brand new chat app 
 
-This project is a starting point for a Flutter application.
+powered by [flutter](https://flutter.dev/)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## fell free to contribute 
+### my goal
+i want to make a free and open source chat app using flutter and firebase
