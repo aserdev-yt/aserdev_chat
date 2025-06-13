@@ -3,10 +3,41 @@ import 'package:flutter/material.dart';
 import 'package:aserdev_chat/themes/dark_mode.dart';
 import 'package:aserdev_chat/pages/login_page.dart';
 import 'package:aserdev_chat/pages/signup_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:aserdev_chat/pages/home_menu.dart';
 
-class WelcomePage extends StatelessWidget {
+class WelcomePage extends StatefulWidget {
   final void Function(ThemeData) onThemeChanged;
   const WelcomePage({super.key, required this.onThemeChanged});
+
+  @override
+  State<WelcomePage> createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
+  @override
+  void initState() {
+    super.initState();
+    _checkPreviousLogin();
+  }
+
+  Future<void> _checkPreviousLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    final loggedIn = prefs.getBool('ever_logged_in') ?? false;
+    if (loggedIn) {
+      // Replace this with your actual HomePage widget
+      Navigator.push(
+        
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(
+            onThemeChanged: widget.onThemeChanged,
+          ),
+          
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +58,11 @@ class WelcomePage extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Navigate to the login page
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => LoginPage(
-                      onThemeChanged: onThemeChanged,
+                      onThemeChanged: widget.onThemeChanged,
                     ),
                   ),
                 );
@@ -46,7 +76,7 @@ class WelcomePage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => SignupPage(
-                      onThemeChanged: onThemeChanged,
+                      onThemeChanged: widget.onThemeChanged,
                     ),
                   ),
                 );
@@ -66,14 +96,14 @@ class WelcomePage extends StatelessWidget {
               actions: [
                 TextButton(
                   onPressed: () {
-                    onThemeChanged(lightTheme); // Switch to light theme
+                    widget.onThemeChanged(lightTheme);
                     Navigator.of(context).pop();
                   },
                   child: Text('Light mode'),
                 ),
                 TextButton(
                   onPressed: () {
-                    onThemeChanged(darkTheme); // Switch to dark theme
+                    widget.onThemeChanged(darkTheme);
                     Navigator.of(context).pop();
                   },
                   child: Text('Dark mode'),

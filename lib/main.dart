@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'themes/light_mode.dart';
-import 'themes/dark_mode.dart';
 import 'pages/welcome_page.dart';
 
 void main() {
@@ -26,9 +25,10 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      title: 'Aserdev Chat',
       theme: _themeData,
       home: WelcomePage(onThemeChanged: setTheme),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

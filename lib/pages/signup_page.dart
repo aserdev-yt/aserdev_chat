@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:aserdev_chat/themes/light_mode.dart';
 import 'package:aserdev_chat/themes/dark_mode.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:aserdev_chat/pages/home_menu.dart';
 
 class SignupPage extends StatefulWidget {
   final void Function(ThemeData)? onThemeChanged;
@@ -15,6 +17,25 @@ class _SignupPageState extends State<SignupPage> {
   String _username = '';
   String _password = '';
   String _confirmPassword = '';
+
+  Future<void> _handleSignup() async {
+    if (_formKey.currentState!.validate()) {
+      // Save login status to device storage
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('ever_logged_in', true);
+
+      // Show a success message or navigate to home page
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Signup successful!')),
+      );
+      // Optionally navigate to home page here
+      Navigator.push(context, MaterialPageRoute(
+        builder: (context) => HomePage(
+          onThemeChanged: widget.onThemeChanged ?? (theme) {},
+        ),
+      ));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +52,7 @@ class _SignupPageState extends State<SignupPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset('images/logo.png'),
+                Image.asset('images/logo.png', width: 100, height: 100, fit: BoxFit.contain),
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Username'),
                   onChanged: (value) => _username = value,
@@ -56,11 +77,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Handle signup logic here
-                    }
-                  },
+                  onPressed: _handleSignup,
                   child: const Text('Sign Up'),
                 ),
               ],
@@ -100,8 +117,8 @@ class _SignupPageState extends State<SignupPage> {
             ),
           );
         },
-        child: const Icon(Icons.settings),
-        tooltip: 'Settings',
+        child: const Icon(Icons.brush),
+        tooltip: 'theme settings',
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
