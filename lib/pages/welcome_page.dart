@@ -2,6 +2,7 @@ import 'package:aserdev_chat/themes/light_mode.dart';
 import 'package:flutter/material.dart';
 import 'package:aserdev_chat/themes/dark_mode.dart';
 import 'package:aserdev_chat/pages/login_page.dart';
+import 'package:aserdev_chat/pages/signup_page.dart';
 
 class WelcomePage extends StatelessWidget {
   final void Function(ThemeData) onThemeChanged;
@@ -41,7 +42,14 @@ class WelcomePage extends StatelessWidget {
             SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                // Add your registration logic here
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SignupPage(
+                      onThemeChanged: onThemeChanged,
+                    ),
+                  ),
+                );
               },
               child: Text('Register'),
             ),
