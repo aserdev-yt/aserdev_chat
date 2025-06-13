@@ -1,9 +1,11 @@
 import 'package:aserdev_chat/themes/light_mode.dart';
 import 'package:flutter/material.dart';
 import 'package:aserdev_chat/themes/dark_mode.dart';
-class LoginPage extends StatelessWidget {
+import 'package:aserdev_chat/pages/login_page.dart';
+
+class WelcomePage extends StatelessWidget {
   final void Function(ThemeData) onThemeChanged;
-  const LoginPage({super.key, required this.onThemeChanged});
+  const WelcomePage({super.key, required this.onThemeChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,15 @@ class LoginPage extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Add your login logic here
+                // Navigate to the login page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginPage(
+                      onThemeChanged: onThemeChanged,
+                    ),
+                  ),
+                );
               },
               child: Text('Login'),
             ),

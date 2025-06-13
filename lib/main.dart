@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'themes/light_mode.dart';
 import 'themes/dark_mode.dart';
-import 'pages/loginpage.dart';
+import 'pages/welcome_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: _themeData,
-      home: LoginPage(onThemeChanged: setTheme),
+      home: WelcomePage(onThemeChanged: setTheme),
     );
   }
 }
