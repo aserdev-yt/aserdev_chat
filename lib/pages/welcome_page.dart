@@ -25,18 +25,21 @@ class _WelcomePageState extends State<WelcomePage> {
     final prefs = await SharedPreferences.getInstance();
     final loggedIn = prefs.getBool('ever_logged_in') ?? false;
     if (loggedIn) {
-      // Replace this with your actual HomePage widget
       Navigator.push(
-        
         context,
         MaterialPageRoute(
           builder: (context) => HomePage(
             onThemeChanged: widget.onThemeChanged,
           ),
-          
         ),
       );
     }
+  }
+
+  Future<void> _setThemeAndSave(ThemeData theme, String mode) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('theme_mode', mode);
+    widget.onThemeChanged(theme);
   }
 
   @override
@@ -95,15 +98,15 @@ class _WelcomePageState extends State<WelcomePage> {
               content: Text('Choose a theme:'),
               actions: [
                 TextButton(
-                  onPressed: () {
-                    widget.onThemeChanged(lightTheme);
+                  onPressed: () async {
+                    await _setThemeAndSave(lightTheme, 'light');
                     Navigator.of(context).pop();
                   },
                   child: Text('Light mode'),
                 ),
                 TextButton(
-                  onPressed: () {
-                    widget.onThemeChanged(darkTheme);
+                  onPressed: () async {
+                    await _setThemeAndSave(darkTheme, 'dark');
                     Navigator.of(context).pop();
                   },
                   child: Text('Dark mode'),

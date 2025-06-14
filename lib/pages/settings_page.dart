@@ -30,6 +30,12 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  Future<void> _setThemeAndSave(ThemeData theme, String mode) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('theme_mode', mode);
+    widget.onThemeChanged(theme);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,15 +45,15 @@ class _SettingsPageState extends State<SettingsPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ElevatedButton(
-              onPressed: () {
-                widget.onThemeChanged(lightTheme);
+              onPressed: () async {
+                await _setThemeAndSave(lightTheme, 'light');
               },
               child: const Text('Light Theme'),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () {
-                widget.onThemeChanged(darkTheme);
+              onPressed: () async {
+                await _setThemeAndSave(darkTheme, 'dark');
               },
               child: const Text('Dark Theme'),
             ),

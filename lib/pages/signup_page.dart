@@ -20,21 +20,24 @@ class _SignupPageState extends State<SignupPage> {
 
   Future<void> _handleSignup() async {
     if (_formKey.currentState!.validate()) {
-      // Save login status to device storage
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool('ever_logged_in', true);
 
-      // Show a success message or navigate to home page
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Signup successful!')),
       );
-      // Optionally navigate to home page here
       Navigator.push(context, MaterialPageRoute(
         builder: (context) => HomePage(
           onThemeChanged: widget.onThemeChanged ?? (theme) {},
         ),
       ));
     }
+  }
+
+  Future<void> _setThemeAndSave(ThemeData theme, String mode) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('theme_mode', mode);
+    widget.onThemeChanged?.call(theme);
   }
 
   @override
@@ -94,15 +97,15 @@ class _SignupPageState extends State<SignupPage> {
               content: const Text('Choose a theme:'),
               actions: [
                 TextButton(
-                  onPressed: () {
-                    widget.onThemeChanged?.call(lightTheme);
+                  onPressed: () async {
+                    await _setThemeAndSave(lightTheme, 'light');
                     Navigator.of(context).pop();
                   },
                   child: const Text('Light Mode'),
                 ),
                 TextButton(
-                  onPressed: () {
-                    widget.onThemeChanged?.call(darkTheme);
+                  onPressed: () async {
+                    await _setThemeAndSave(darkTheme, 'dark');
                     Navigator.of(context).pop();
                   },
                   child: const Text('Dark Mode'),

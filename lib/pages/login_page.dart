@@ -19,12 +19,9 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _handleLogin() async {
     if (_formKey.currentState!.validate()) {
-
-      // Save login status to device storage
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool('ever_logged_in', true);
 
-      // You can navigate to the home page here if you want
       Navigator.push(context, MaterialPageRoute(
         builder: (context) => HomePage(
           onThemeChanged: widget.onThemeChanged ?? (theme) {},
@@ -34,6 +31,12 @@ class _LoginPageState extends State<LoginPage> {
         SnackBar(content: Text('Login successful!')),
       );
     }
+  }
+
+  Future<void> _setThemeAndSave(ThemeData theme, String mode) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('theme_mode', mode);
+    widget.onThemeChanged?.call(theme);
   }
 
   @override
@@ -91,15 +94,15 @@ class _LoginPageState extends State<LoginPage> {
               content: const Text('Choose a theme:'),
               actions: [
                 TextButton(
-                  onPressed: () {
-                    widget.onThemeChanged?.call(lightTheme);
+                  onPressed: () async {
+                    await _setThemeAndSave(lightTheme, 'light');
                     Navigator.of(context).pop();
                   },
                   child: const Text('Light Mode'),
                 ),
                 TextButton(
-                  onPressed: () {
-                    widget.onThemeChanged?.call(darkTheme);
+                  onPressed: () async {
+                    await _setThemeAndSave(darkTheme, 'dark');
                     Navigator.of(context).pop();
                   },
                   child: const Text('Dark Mode'),
